@@ -119,11 +119,13 @@ def get_1password_items(session_token: str, query: str = "") -> List[Dict]:
 def get_password_from_1password(session_token: str, item_id: str) -> Optional[str]:
     """Retrieve password from 1Password for a specific item"""
     try:
-        # Build command based on whether we have app integration or session token
+        # "--reveal" is required, otherwise "op" returns a placeholder
+        # ("[use 'op item get <id> --reveal' to reveal]") instead of the secret.
         if session_token == "APP_INTEGRATION":
-            cmd = op_cmd("item", "get", item_id, "--fields=password")
+            cmd = op_cmd("item", "get", item_id, "--fields=password", "--reveal")
         else:
-            cmd = op_cmd("item", "get", item_id, "--fields=password", "--session", session_token)
+            cmd = op_cmd("item", "get", item_id, "--fields=password", "--reveal",
+                         "--session", session_token)
         
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return result.stdout.strip()
