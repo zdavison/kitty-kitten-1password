@@ -1,3 +1,6 @@
+
+</think>
+
 # 1Password Kitten for Kitty Terminal
 
 Provides integration with 1Password biometrics to allow you to inject passwords from 1Password into the terminal anywhere.
@@ -7,7 +10,7 @@ Provides integration with 1Password biometrics to allow you to inject passwords 
 - Kitty terminal emulator
 - 1Password CLI (`op`) installed and configured
 - Python 3.8+ (uses only standard library modules)
-- `fzf`
+- `fzf` (optional but recommended for fuzzy search interface)
 
 ## Installation
 
