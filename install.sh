@@ -268,7 +268,13 @@ configure_kitty() {
 # Primary hotkey - fuzzy search through all 1Password items
 map ctrl+alt+p kitten onepassword_kitten.py
 EOF
-    
+
+    # On macOS "alt" is the Option key, so the binding above is Ctrl+Option+P.
+    # Also bind the Cmd-based variant that Mac users tend to reach for.
+    if [[ "$PLATFORM" == "macos" ]]; then
+        echo "map cmd+alt+p kitten onepassword_kitten.py" >> "$KITTY_CONF"
+    fi
+
     print_success "Configuration added to kitty.conf"
 }
 
@@ -327,6 +333,12 @@ except Exception as e:
 
 # Show post-installation instructions
 show_instructions() {
+    if [[ "$PLATFORM" == "macos" ]]; then
+        HOTKEY="Ctrl+Option+P or Cmd+Option+P"
+    else
+        HOTKEY="Ctrl+Alt+P"
+    fi
+
     echo
     print_success "Installation complete!"
     echo
@@ -340,10 +352,10 @@ show_instructions() {
     echo
     echo "2. Restart Kitty terminal"
     echo
-    echo -e "3. Test the kitten by pressing ${YELLOW}Ctrl+Alt+P${NC} in any terminal session"
+    echo -e "3. Test the kitten by pressing ${YELLOW}$HOTKEY${NC} in any terminal session"
     echo
     echo -e "${BLUE}Usage:${NC}"
-    echo -e "• ${YELLOW}Ctrl+Alt+P${NC} - Open fuzzy search for all 1Password items"
+    echo -e "• ${YELLOW}$HOTKEY${NC} - Open fuzzy search for all 1Password items"
     echo "• Start typing to filter items in real-time"
     echo "• Use arrow keys to navigate, Enter to select, Escape to cancel"
     echo

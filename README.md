@@ -43,7 +43,7 @@ Once configured, the kitten will automatically prompt for biometric authenticati
 
 ### Basic Usage
 
-1. When you encounter a password prompt, press `Ctrl+Alt+P`
+1. When you encounter a password prompt, press `Ctrl+Alt+P` (on macOS: `Ctrl+Option+P` or `Cmd+Option+P`)
 2. A fuzzy search interface opens with all your 1Password items
 3. Start typing to filter items in real-time
 4. Use arrow keys to navigate, Enter to select
@@ -69,6 +69,20 @@ $ mysql -h db.example.com -u admin -p
 Password: [press Ctrl+Alt+P] 
 # Type "database" or "mysql" to find database credentials
 ```
+
+## Troubleshooting
+
+### The shortcut does nothing
+
+- On macOS, kitty's `alt` is the Option key, so `ctrl+alt+p` means `Ctrl+Option+P`, not `Cmd+Option+P`. The installer also binds `cmd+alt+p` on macOS; if you installed before that was added, add it yourself:
+
+  ```
+  map cmd+alt+p kitten onepassword_kitten.py
+  ```
+
+- Restart kitty (or reload the config with `Ctrl+Cmd+,` on macOS / `Ctrl+Shift+F5` elsewhere) after editing `kitty.conf`.
+- Run `kitty --debug-input` from another terminal and press the shortcut. The output shows which key kitty received and whether it matched a mapping.
+- If you installed before August 2026, re-run the installer. Older versions could not find `op` when kitty was launched from the Dock.
 
 # Thanks
 

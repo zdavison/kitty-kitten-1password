@@ -210,9 +210,12 @@ def main(args: List[str]) -> str:
 
 def handle_result(args: List[str], answer: str, target_window_id: int, boss: Boss) -> None:
     """Handle the result from main() and paste it into the terminal"""
-    if answer.startswith("ERROR:") or answer == "CANCELLED":
-        # Don't paste errors, just show them
-        print(f"\n{answer}")
+    if answer == "CANCELLED":
+        return
+    if answer.startswith("ERROR:"):
+        # Don't paste errors. handle_result runs in kitty's own process, so
+        # print() output is never seen; show the error in kitty instead.
+        boss.show_error("1Password kitten", answer[len("ERROR:"):].strip())
     else:
         # Paste the password
         w = boss.window_id_map.get(target_window_id)
